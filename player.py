@@ -1,4 +1,5 @@
 import pygame
+from effects import *
 
 class player:
     x = 390
@@ -6,26 +7,25 @@ class player:
 
     def __init__(self):
         self.x, self.y = 390, 390
-        self.speed = 3
+        self.speed = 10
     
     def draw(self, screen):
         player.x = self.x
         player.y = self.y
         rect = pygame.Rect(self.x, self.y, 20, 20)
-        pygame.draw.rect(screen, (100,100,0), rect)
+        pygame.draw.rect(screen, (63,209,148), rect)
 
-    def movement(self, key):
-        if key[pygame.K_a]:
-            self.x -= self.speed
+    def movement(self, key, move_list):
         if key[pygame.K_d]:
-            self.x += self.speed
+            move_list[0] = self.speed
+        if key[pygame.K_a]:
+            move_list[0] = -self.speed
         if key[pygame.K_w]:
-            self.y -= self.speed
+            move_list[1] = -self.speed
         if key[pygame.K_s]:
-            self.y += self.speed
+            move_list[1] = self.speed
+        if not key[pygame.K_a] and not key[pygame.K_d]:
+            move_list[0] = 0
+        if not key[pygame.K_w] and not key[pygame.K_s]:
+            move_list[1] = 0
 
-    def shooting(self, bullet):
-        if pygame.mouse.get_pressed()[0]:
-            bullet.color = (255,0,0)
-        elif not pygame.mouse.get_pressed()[0]:
-            bullet.color = (255,255,255)
